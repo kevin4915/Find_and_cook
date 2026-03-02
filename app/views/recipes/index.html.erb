@@ -1,0 +1,18 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Toutes les recettes</h1>
+
+  <%= link_to "Créer une recette", new_recipe_path, class: "btn btn-primary mb-3" %>
+
+  <div class="row">
+    <% @recipes.each do |recipe| %>
+      <div class="col-md-4 mb-4">
+        <div class="card p-3 shadow-sm">
+          <h4><%= recipe.title %></h4>
+          <p><strong>Ingrédient principal :</strong> <%= recipe.ingredient %></p>
+          <p><strong>Note :</strong> <%= recipe.rating %>/5</p>
+          <%= link_to "Voir la recette", recipe_path(recipe), class: "btn btn-outline-primary btn-sm mt-2" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
