@@ -10,6 +10,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[8.1]
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
+      t.string   :first_name, null: false, default: ""
+      t.string   :last_name, null: false, default: ""
 
       ## Rememberable
       t.datetime :remember_created_at
