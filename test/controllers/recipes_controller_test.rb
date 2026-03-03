@@ -10,4 +10,8 @@ class RecipesControllerTest < ActionDispatch::IntegrationTest
     get recipes_show_url
     assert_response :success
   end
+
+  # test "the truth" do
+  #   assert true
+  # end
 end
