@@ -11,6 +11,9 @@
             input_html: { autocomplete: "Nom" } %>
         <%= f.input :first_name, required: true, required: true, label: "Prénom",
                     input_html: { autocomplete: "Prénom" } %>
+        <%= f.input :forbidden_ingredients, as: :text, label: "Ingrédients que je ne veux pas dans mes recettes",
+                     hint: "Séparez les ingrédients par des virgules",
+                    input_html: { autocomplete: "forbidden-ingredients" } %>
         <%= f.input :email,
                     required: true, label: "Adresse email",
                     input_html: { autocomplete: "email" } %>
