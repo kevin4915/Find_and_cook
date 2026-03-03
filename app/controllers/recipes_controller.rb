@@ -10,7 +10,7 @@ class RecipesController < ApplicationController
   def create
     @chat = Chat.create!(user: current_user, title: "Recherche du #{Time.now.strftime('%d/%m')}")
     @message = Message.new(chat: @chat, role: "user", content: params[:ingredients])
-
+    @recipe = Recipe.create(title: "Recette du #{Time.now.strftime('%d/%m')}", ingredient: params[:ingredients], preparation: "en cours", rating: 0)
     if @message.save
       begin
         llm_chat = RubyLLM.chat.with_instructions(SYSTEM_PROMPT)

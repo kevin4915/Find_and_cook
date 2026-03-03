@@ -1,4 +1,9 @@
 <div class="swipe-container">
+  <% if @recipes.empty? %>
+    <div class="no-recipes">
+      <h3 class="mt-5 mb-5">Aucune recette trouvée, essaye avec d'autres ingrédients ! 😋</h3>
+    </div>
+    <% else %>
   <div class="card-stack">
     <% @recipes.each_with_index do |recipe, index| %>
       <div class="recipe-card" style="z-index: <%= @recipes.count - index %>;">
@@ -26,6 +31,7 @@
       </div>
     <% end %>
   </div>
+  <% end %>
 </div>
 
 <script>
