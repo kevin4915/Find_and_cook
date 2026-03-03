@@ -22,9 +22,8 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
-  <body>
-  <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
+  <body class="bg-cream">
+    <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
   <header>
     <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
     <%= render "shared/flashes" %>
