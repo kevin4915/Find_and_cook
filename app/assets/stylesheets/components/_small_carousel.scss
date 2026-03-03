@@ -1,0 +1,13 @@
+.small-carousel {
+  max-width: 500px;
+  height: 300px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.small-carousel img {
+  height: 440px;
+  object-fit: cover;
+  object-position: center 80%;
+}
