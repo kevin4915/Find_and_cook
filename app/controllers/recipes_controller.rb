@@ -1,4 +1,11 @@
 class RecipesController < ApplicationController
+  def index
+    @recipes = Recipe.all
+  end
+
+  def show
+    @recipe = Recipe.find(params[:id])
+
   SYSTEM_PROMPT = "Tu es un chef cuisinier.
     J'ai des ingrédients dans mon frigo mais je ne sais pas quoi préparer.
     Réponds moi avec un nom de recette, ses ingrédients et les étapes de préparation"
