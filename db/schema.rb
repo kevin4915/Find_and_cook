@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_02_143905) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_03_154622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -35,6 +35,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_02_143905) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.string "ingredient"
+    t.text "mode_operatoire"
     t.text "preparation"
     t.integer "rating"
     t.string "title"

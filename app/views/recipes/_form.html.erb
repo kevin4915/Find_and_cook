@@ -1,27 +1,20 @@
-<div class="card p-4 shadow-sm mt-4">
-  <%= form_with model: recipe, local: true do |f| %>
+<%= form_with(model: @recipe, local: true) do |form| %>
 
-    <div class="mb-3">
-      <%= f.label :title, "Titre" %>
-      <%= f.text_field :title, class: "form-control", placeholder: "Ex : Poulet au curry" %>
-    </div>
+  <div class="form-group mb-3">
+    <%= form.label :title, "Titre" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
 
-    <div class="mb-3">
-      <%= f.label :ingredient, "Ingrédient principal" %>
-      <%= f.text_field :ingredient, class: "form-control", placeholder: "Ex : Poulet" %>
-    </div>
+  <div class="form-group mb-3">
+    <%= form.label :ingredient, "Ingrédients" %>
+    <%= form.text_area :ingredient, class: "form-control", rows: 5 %>
+  </div>
 
-    <div class="mb-3">
-      <%= f.label :preparation, "Préparation" %>
-      <%= f.text_area :preparation, rows: 5, class: "form-control", placeholder: "Décris les étapes..." %>
-    </div>
+  <div class="form-group mb-3">
+    <%= form.label :preparation, "Préparation" %>
+    <%= form.text_area :preparation, class: "form-control", rows: 8 %>
+  </div>
 
-    <div class="mb-3">
-      <%= f.label :rating, "Note (1 à 5)" %>
-      <%= f.number_field :rating, class: "form-control", min: 1, max: 5 %>
-    </div>
+  <%= form.submit "Enregistrer", class: "btn btn-primary mt-3" %>
 
-    <%= f.submit "Enregistrer", class: "btn btn-success w-100" %>
-
-  <% end %>
-</div>
+<% end %>
