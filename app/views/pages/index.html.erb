@@ -1,5 +1,4 @@
 <div class="container text-center">
-  <h1>Find & Cook</h1>
 
   <div class="my-4">
     <% if @messages&.any? %>
@@ -7,10 +6,10 @@
         <p><strong><%= message.role == 'user' ? 'Moi' : 'Chef IA' %> :</strong> <%= message.content %></p>
       <% end %>
     <% else %>
-      <p>Pour de bons repas il faut de bons ingrédients, qu'as-tu sous la main ? 😋</p>
+      <h3 class="mt-5 mb-5">Pour de bons repas il faut de bons ingrédients, qu'as-tu sous la main ? 😋</h3>
     <% end %>
 
-    <%= form_with url: search_recipes_path, method: :post, data: { turbo: false }, class: "d-flex justify-content-center mt-3" do |f| %>
+    <%= form_with url: search_recipes_path, method: :post, data: { turbo: false }, class: "form_ia d-flex justify-content-center mt-3" do |f| %>
       <div class="input-group" style="max-width: 500px;">
         <%= f.text_field :ingredients,
               placeholder: "ex: poulet, citron, ail...",
