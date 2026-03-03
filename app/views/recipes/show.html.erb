@@ -1,2 +1,17 @@
-<h1>Recipes#show</h1>
-<p>Find me in app/views/recipes/show.html.erb</p>
+<div class="container mt-5">
+  <div class="card border-0 shadow-sm">
+    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="<%= @recipe.title %>">
+
+    <div class="card-body">
+      <h1><%= @recipe.title %></h1>
+
+      <h4 class="mt-4">🛒 Ingrédients</h4>
+      <p><%= @recipe.ingredient %></p>
+
+      <h4 class="mt-4">👨‍🍳 Préparation</h4>
+      <p><%= @recipe.preparation %></p>
+    </div>
+
+    <%= link_to "← Nouvelle recherche", root_path, class: "btn btn-success m-3" %>
+  </div>
+</div>
