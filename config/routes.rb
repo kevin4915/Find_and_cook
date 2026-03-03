@@ -13,5 +13,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :chats, only: [ :index, :new, :create]
+  post "recipes/create", to: "recipes#create", as: :search_recipes
 end
