@@ -1,13 +1,14 @@
 class RecipesController < ApplicationController
   before_action :authenticate_user!
 
-  SYSTEM_PROMPT = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes, sans texte autour, sans markdown.
+  SYSTEM_PROMPT = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes avec une URL d'image d'illustration de la recette, sans texte autour, sans markdown.
   Format exact :
   [
     {
       \"title\": \"Nom de la recette\",
       \"ingredient\": \"liste des ingrédients\",
-      \"preparation\": \"étapes de préparation\"
+      \"preparation\": \"étapes de préparation\",
+      \"image\": \"URL de l'image\"
     }
   ]"
 
@@ -34,7 +35,8 @@ class RecipesController < ApplicationController
           title: recipe_data["title"],
           ingredient: recipe_data["ingredient"],
           preparation: recipe_data["preparation"],
-          rating: 0
+          rating: 0,
+          image_URL: recipe_data["image"]
         ).id
       end
 
