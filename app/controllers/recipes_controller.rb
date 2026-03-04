@@ -16,24 +16,22 @@ class RecipesController < ApplicationController
     if @message.save
       llm_chat = RubyLLM.chat.with_instructions(system_prompt)
       response = llm_chat.ask(@message.content)
-      Message.create!(content: response.content, role: "assistant", chat: @chat)
 
       recipes_data = JSON.parse(response.content)
-      recipe_ids = recipes_data.map do |recipe_data|
+      recipe_ids = recipes_data.map do |data|
         Recipe.create!(
-          title: recipe_data["title"],
-          ingredient: recipe_data["ingredient"],
-          preparation: recipe_data["preparation"],
-          rating: recipe_data["rating"],
-          image_URL: recipe_data["image"],
-          short_description: recipe_data["description"],
-          preparation_time: recipe_data["duration"]
+          title: data["title"],
+          ingredient: data["ingredient"],
+          preparation: data["preparation"],
+          rating: data["rating"],
+          preparation_time: data["duration"],
+          is_healthy: data["is_healthy"],
+          is_protein: data["is_protein"]
         ).id
       end
 
       session[:pending_recipe_ids] = recipe_ids
       session[:recipe_index] = 0
-
       redirect_to swipe_path
     else
       redirect_to root_path
@@ -42,11 +40,12 @@ class RecipesController < ApplicationController
 
   def swipe
     ids = session[:pending_recipe_ids]
-    index = session[:recipe_index]
+    @index = session[:recipe_index] || 0
+    @total = ids&.length || 1
 
-    redirect_to root_path and return if ids.nil? || index >= ids.length
+    redirect_to root_path and return if ids.nil? || @index >= ids.length
 
-    @recipe = Recipe.find(ids[index])
+    @recipe = Recipe.find(ids[@index])
   end
 
   def next_recipe
@@ -57,12 +56,9 @@ class RecipesController < ApplicationController
   def save_recipe
     ids = session[:pending_recipe_ids]
     index = session[:recipe_index]
-
     @recipe = Recipe.find(ids[index])
-
     session.delete(:pending_recipe_ids)
     session.delete(:recipe_index)
-
     redirect_to recipe_path(@recipe)
   end
 
@@ -71,7 +67,7 @@ class RecipesController < ApplicationController
   def system_prompt
     prompt = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes avec tous les ingrédients listés avec une URL
     d'image d'illustration de la recette, une courte description en 10 mots, une durée de préparation en minutes, et attribue un nombre entier en note sur 5
-    à chaque recette. Le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
+    à chaque recette, is_healthy et is_protein. Le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
   Format exact :
   [
     {
@@ -82,6 +78,8 @@ class RecipesController < ApplicationController
       \"description\": \"courte description\",
       \"duration\": \"durée de préparation en minutes\",
       \"rating\": \"note sur 5\"
+      \"is_healthy\": true,
+      \"is_protein\": false
     }
   ]"
 
