@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="col-md-4 offset-md-4 mt-4">
+    <h2>Créer un nouveau compte</h2>
+
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= f.error_notification %>
+
+      <div class="form-inputs">
+        <%= f.input :last_name, required: true, label: "Nom",
+            autofocus: true,
+            input_html: { autocomplete: "Nom" } %>
+        <%= f.input :first_name, required: true, required: true, label: "Prénom",
+                    input_html: { autocomplete: "Prénom" } %>
+        <%= f.input :forbidden_ingredients, as: :text, label: "Ingrédients que je ne veux pas dans mes recettes",
+                     hint: "Séparez les ingrédients par des virgules",
+                    input_html: { autocomplete: "forbidden-ingredients" } %>
+        <%= f.input :email,
+                    required: true, label: "Adresse email",
+                    input_html: { autocomplete: "email" } %>
+        <%= f.input :password, label: "Mot de passe",
+                    required: true,
+                    hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                    input_html: { autocomplete: "new-password" } %>
+        <%= f.input :password_confirmation, label: "Confirmer le mot de passe",
+                    required: true,
+                    input_html: { autocomplete: "new-password" } %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.button :submit, "Valider l'inscription", class: "btn btn-success" %>
+      </div>
+    <% end %>
+
+    <div class="mt-4"><%= render "devise/shared/links" %></div>
+  </div>
+</div>

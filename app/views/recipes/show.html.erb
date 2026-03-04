@@ -1,13 +1,17 @@
 <div class="container mt-5">
+  <div class="card border-0 shadow-sm">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="<%= @recipe.title %>">
 
-  <h1 class="mb-4"><%= @recipe.title %></h1>
-  <p class="text-muted">Critique : <%= @recipe.rating %>/5</p>
+      <div class="card-body">
+        <h1><%= @recipe.title %></h1>
 
-  <h3 class="mt-4">Ingrédients</h3>
-  <pre class="bg-light p-3 rounded"><%= @recipe.ingredient %></pre>
+        <h4 class="mt-4">🛒 Ingrédients</h4>
+        <p><%= @recipe.ingredient %></p>
 
-  <h3 class="mt-4">Preparation</h3>
-  <pre class="bg-light p-3 rounded"><%= @recipe.preparation %></pre>
+        <h4 class="mt-4">👨‍🍳 Préparation</h4>
+        <p><%= @recipe.preparation %></p>
+      </div>
 
-  <%= link_to "Nouvelle recette", new_recipe_path, class: "btn btn-primary mt-4" %>
+      <%= link_to "← Nouvelle recherche", root_path, class: "btn btn-success m-3" %>
+  </div>
 </div>

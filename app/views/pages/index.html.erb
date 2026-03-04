@@ -1,0 +1,26 @@
+<div class="container text-center">
+  <div class="my-4">
+    <h3 class="mt-5 mb-5">Pour de bons repas il faut de bons ingrédients, qu'as-tu sous la main ? 😋</h3>
+
+    <%= form_with url: recipes_path, method: :post, data: { turbo: false }, class: "form-ia d-flex justify-content-center mt-3" do |f| %>
+      <div class="input-group" style="max-width: 500px;">
+        <%= f.text_field :ingredients,
+              placeholder: "ex: poulet, citron, ail...",
+              class: "form-control form-control-lg rounded-start-pill border-0 shadow-sm" %>
+        <%= f.submit "Cuisiner",
+              class: "btn btn-success btn-lg rounded-end-pill px-4" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="carouselExampleInterval" class="carousel slide small-carousel" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80" class="d-block w-100" alt="Plat 1">
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?q=80" class="d-block w-100" alt="Plat 2">
+      </div>
+    </div>
+  </div>
+</div>

@@ -76,3 +76,69 @@ h1 {
     }
   }
 }
+/* Conteneur principal */
+.swipe-container {
+  background-color: #f8f9fa;
+  height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.card-stack {
+  position: relative;
+  width: 350px;
+  height: 600px;
+}
+
+.recipe-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  .card {
+    border-radius: 40px; /* Arrondis très prononcés comme sur l'image */
+    overflow: hidden;
+    height: 100%;
+  }
+}
+
+.recipe-image-container {
+  position: relative;
+  height: 65%;
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.recipe-title-overlay {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+
+  .italic-title {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 22px;
+  }
+}
+
+/* Boutons ronds parfaits */
+.btn-round {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: 0.2s;
+
+  &:active { transform: scale(0.9); }
+}
+
+.btn-dislike { background-color: #E74C3C; color: white; }
+.btn-like { background-color: #2ECC71; color: white; }

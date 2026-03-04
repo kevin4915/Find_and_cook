@@ -1,69 +1,75 @@
 class RecipesController < ApplicationController
-  SYSTEM_PROMPT = "
-    Tu es un chef cuisinier professionnel.
-    Génère une recette réalisable immédiatement à partir d’ingrédients.
-    Réponds toujours dans ce format strict :
+  before_action :authenticate_user!
 
-    Titre: <titre court>
-
-    Ingrédients:
-    - <liste réécrite proprement>
-
-    Mode opératoire:
-    1. <étape 1>
-    2. <étape 2>
-    3. <étape 3>
-
-    Ne mets rien d’autre en dehors de ce format.
-  "
+  SYSTEM_PROMPT = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes, sans texte autour, sans markdown.
+  Format exact :
+  [
+    {
+      \"title\": \"Nom de la recette\",
+      \"ingredient\": \"liste des ingrédients\",
+      \"preparation\": \"étapes de préparation\"
+    }
+  ]"
 
   def index
-    @recipes = Recipe.order(created_at: :desc)
-  end
-
-  def new
-    @recipe = Recipe.new
-  end
-
-  def create
-    ingredients = params[:recipe][:ingredient]
-
-    user_prompt = "Voici mes ingrédients : #{ingredients}. Génère une recette complète."
-
-    ruby_llm = RubyLLM.chat.with_instructions(SYSTEM_PROMPT)
-    response = ruby_llm.ask(user_prompt)
-    generated = response.content
-
-    title = generated.match(/Titre:\s*(.*)/)&.captures&.first&.strip || "Recette générée"
-    ingredients_clean = generated.match(/Ingrédients:\s*([\s\S]*?)Mode opératoire:/)&.captures&.first&.strip || ingredients
-    steps_clean = generated.match(/Mode opératoire:\s*([\s\S]*)/)&.captures&.first&.strip || "Étapes non trouvées"
-
-    @recipe = Recipe.new(
-      title: title,
-      ingredient: ingredients_clean,
-      preparation: steps_clean,
-      rating: rand(1..5)
-    )
-
-    if @recipe.save
-      redirect_to @recipe
-    else
-      render :new, status: :unprocessable_entity
-    end
+    @recipes = Recipe.all
   end
 
   def show
     @recipe = Recipe.find(params[:id])
   end
 
-  private
+  def create
+    @chat = Chat.create!(user: current_user, title: "Recherche du #{Time.now.strftime('%d/%m')}")
+    @message = Message.new(chat: @chat, role: "user", content: params[:ingredients])
 
-  def recipe_params
-    params.require(:recipe).permit(
-      :title,
-      :rating,
-      :ingredient,
-      :preparation
-    )
+    if @message.save
+      llm_chat = RubyLLM.chat.with_instructions(SYSTEM_PROMPT)
+      response = llm_chat.ask(@message.content)
+      Message.create!(content: response.content, role: "assistant", chat: @chat)
+
+      recipes_data = JSON.parse(response.content)
+      recipe_ids = recipes_data.map do |recipe_data|
+        Recipe.create!(
+          title: recipe_data["title"],
+          ingredient: recipe_data["ingredient"],
+          preparation: recipe_data["preparation"],
+          rating: 0
+        ).id
+      end
+
+      session[:pending_recipe_ids] = recipe_ids
+      session[:recipe_index] = 0
+
+      redirect_to swipe_path
+    else
+      redirect_to root_path
+    end
+  end
+
+  def swipe
+    ids = session[:pending_recipe_ids]
+    index = session[:recipe_index]
+
+    redirect_to root_path and return if ids.nil? || index >= ids.length
+
+    @recipe = Recipe.find(ids[index])
+  end
+
+  def next_recipe
+    session[:recipe_index] += 1
+    redirect_to swipe_path
+  end
+
+  def save_recipe
+    ids = session[:pending_recipe_ids]
+    index = session[:recipe_index]
+
+    @recipe = Recipe.find(ids[index])
+
+    session.delete(:pending_recipe_ids)
+    session.delete(:recipe_index)
+
+    redirect_to recipe_path(@recipe)
   end
 end
