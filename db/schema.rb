@@ -63,7 +63,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_04_094253) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.string "ingredient"
-    t.text "mode_operatoire"
     t.text "preparation"
     t.integer "preparation_time"
     t.integer "rating"
