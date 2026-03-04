@@ -51,9 +51,7 @@ class RecipesController < ApplicationController
     ids = session[:pending_recipe_ids]
     index = session[:recipe_index]
 
-    if ids.nil? || index >= ids.length
-      redirect_to root_path and return
-    end
+    redirect_to root_path and return if ids.nil? || index >= ids.length
 
     @recipe = Recipe.find(ids[index])
   end
