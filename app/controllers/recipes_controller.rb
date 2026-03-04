@@ -3,7 +3,7 @@ class RecipesController < ApplicationController
 
   SYSTEM_PROMPT = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes.
   Pour chaque recette, inclus : titre, ingrédients, préparation, une note entière sur 5, durée en minutes (duration),
-  is_healthy (boolean), et is_protein (boolean). # <-- LIGNE AJOUTÉE
+  is_healthy (boolean), et is_protein (boolean).
   Format exact :
   [
     {
@@ -12,8 +12,8 @@ class RecipesController < ApplicationController
       \"preparation\": \"étapes\",
       \"rating\": 5,
       \"duration\": 25,
-      \"is_healthy\": true, # <-- LIGNE AJOUTÉE
-      \"is_protein\": false  # <-- LIGNE AJOUTÉE
+      \"is_healthy\": true,
+      \"is_protein\": false
     }
   ]"
 
