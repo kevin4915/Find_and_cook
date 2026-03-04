@@ -1,14 +1,8 @@
 <div class="container text-center">
-
   <div class="my-4">
-    <% if @messages&.any? %>
-      <% @messages.each do |message| %>
-      <% end %>
-    <% else %>
-      <h3 class="mt-5 mb-5">Pour de bons repas il faut de bons ingrédients, qu'as-tu sous la main ? 😋</h3>
-    <% end %>
+    <h3 class="mt-5 mb-5">Pour de bons repas il faut de bons ingrédients, qu'as-tu sous la main ? 😋</h3>
 
-    <%= form_with url: recipes_path, method: :post, data: { turbo: false }, class: "form_ia d-flex justify-content-center mt-3" do |f| %>
+    <%= form_with url: recipes_path, method: :post, data: { turbo: false }, class: "form-ia d-flex justify-content-center mt-3" do |f| %>
       <div class="input-group" style="max-width: 500px;">
         <%= f.text_field :ingredients,
               placeholder: "ex: poulet, citron, ail...",

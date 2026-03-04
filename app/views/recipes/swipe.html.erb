@@ -1,0 +1,26 @@
+<div class="swipe-container">
+  <div class="card border-0 shadow-sm">
+    <div class="recipe-image-container">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="<%= @recipe.title %>">
+      <div class="recipe-title-overlay">
+        <h2 class="italic-title"><%= @recipe["title"] %></h2>
+      </div>
+    </div>
+
+    <div class="card-body bg-white text-center">
+      <div class="d-flex justify-content-center gap-4 mt-4">
+
+        <%# ❌ Passer à la recette suivante %>
+        <%= button_to next_recipe_path, method: :post, class: "btn-round btn-dislike" do %>
+          <i class="fa-solid fa-xmark"></i>
+        <% end %>
+
+        <%# ❤️ Sauvegarder et voir le détail %>
+        <%= button_to save_recipe_path, method: :post, class: "btn-round btn-like" do %>
+          <i class="fa-solid fa-heart"></i>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
