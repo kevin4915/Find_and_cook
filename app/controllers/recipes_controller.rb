@@ -1,22 +1,6 @@
 class RecipesController < ApplicationController
   before_action :authenticate_user!
 
-  SYSTEM_PROMPT = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes.
-  Pour chaque recette, inclus : titre, ingrédients, préparation, une note entière sur 5, durée en minutes (duration),
-  is_healthy (boolean), et is_protein (boolean).
-  Format exact :
-  [
-    {
-      \"title\": \"Nom\",
-      \"ingredient\": \"liste\",
-      \"preparation\": \"étapes\",
-      \"rating\": 5,
-      \"duration\": 25,
-      \"is_healthy\": true,
-      \"is_protein\": false
-    }
-  ]"
-
   def index
     @recipes = Recipe.all
   end
@@ -30,7 +14,7 @@ class RecipesController < ApplicationController
     @message = Message.new(chat: @chat, role: "user", content: params[:ingredients])
 
     if @message.save
-      llm_chat = RubyLLM.chat.with_instructions(SYSTEM_PROMPT)
+      llm_chat = RubyLLM.chat.with_instructions(system_prompt)
       response = llm_chat.ask(@message.content)
 
       recipes_data = JSON.parse(response.content)
@@ -76,5 +60,31 @@ class RecipesController < ApplicationController
     session.delete(:pending_recipe_ids)
     session.delete(:recipe_index)
     redirect_to recipe_path(@recipe)
+  end
+
+  private
+
+  def system_prompt
+    prompt = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes avec tous les ingrédients listés avec une URL
+    d'image d'illustration de la recette, une courte description en 10 mots, une durée de préparation en minutes, et attribue un nombre entier en note sur 5
+    à chaque recette, is_healthy et is_protein. Le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
+  Format exact :
+  [
+    {
+      \"title\": \"Nom de la recette\",
+      \"ingredient\": \"liste des ingrédients\",
+      \"preparation\": \"étapes de préparation\",
+      \"image\": \"URL de l'image\",
+      \"description\": \"courte description\",
+      \"duration\": \"durée de préparation en minutes\",
+      \"rating\": \"note sur 5\"
+      \"is_healthy\": true,
+      \"is_protein\": false
+    }
+  ]"
+
+    if current_user.forbidden_ingredients.present?
+      prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
+    end
   end
 end
