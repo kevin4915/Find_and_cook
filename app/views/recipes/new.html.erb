@@ -1,0 +1,12 @@
+<div class="container mt-5 text-center">
+  <h1>Générateur de recette</h1>
+  <p class="text-muted">Entre des ingrédients et laisse l’IA te proposer une recette.</p>
+
+  <%= form_with model: @recipe, url: recipes_path, local: true do |f| %>
+    <div class="mb-3">
+      <%= f.text_field :ingredient, placeholder: "ex: poulet, riz, curry...", class: "form-control form-control-lg" %>
+    </div>
+
+    <%= f.submit "Générer la recette", class: "btn btn-success btn-lg px-4" %>
+  <% end %>
+</div>
