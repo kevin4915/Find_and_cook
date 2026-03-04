@@ -24,10 +24,10 @@
   </head>
   <body class="bg-cream">
     <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
-  <header>
-    <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
-    <%= render "shared/flashes" %>
-  </header>
+    <header>
+      <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
+      <%= render "shared/flashes" %>
+    </header>
 
     <main id="main-content">
       <%= yield %>
