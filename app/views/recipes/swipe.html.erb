@@ -27,6 +27,11 @@
                   <i class="fa-solid fa-bolt"></i> Protéiné
                 </span>
               <% end %>
+              <% if @recipe.respond_to?(:is_gourmet) && @recipe.is_gourmet %>
+                 <span class="badge rounded-pill shadow-sm px-3 py-2 text-white" style="background-color: #e84393;">
+                   <i class="fa-solid fa-cookie-bite"></i> Gourmand
+                  </span>
+              <% end %>
             </div>
 
             <div class="recipe-title-overlay">
