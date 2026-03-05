@@ -72,7 +72,6 @@ class RecipesController < ApplicationController
   private
 
   def system_prompt
-
     prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il me
     reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste des
     ingrédients pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes numérotées précédées de ***
@@ -84,20 +83,21 @@ class RecipesController < ApplicationController
   [
     {
       \"title\": \"Nom de la recette\",
-      \"ingredient\": \"liste des ingrédients\",
-      \"preparation\": \"la recette complète et détaillée avec le déroulé en plusieurs étapes numérotées précédées de *** avec des retours à la ligne entre chaque étape\",
+      \"ingredient\": \"ingrédient 1\\ningrédient 2\",
+      \"preparation\": \"1. étape\\n2. étape\",
       \"short_description\": \"courte description\",
       \"preparation_time\": \"durée de préparation en minutes\",
       \"rating\": \"note sur 5\",
       \"is_healthy\": true,
       \"is_protein\": false,
       \"is_gourmet\": true
+      # image_URL: fetch_image(data["title"])
     }
   ]"
 
-    return unless current_user.forbidden_ingredients.present?
-
-    prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
+    if current_user.forbidden_ingredients.present?
+      prompt << "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
+    end
   end
 
   # def fetch_image(title)
