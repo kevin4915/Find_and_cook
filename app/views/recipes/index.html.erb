@@ -11,16 +11,21 @@
             <img src="<%= recipe.image_URL %>" class="card-img-top" alt="<%= recipe.title %>" style="height: 200px; object-fit: cover;">
 
             <div class="card-badges">
-               <% if recipe.is_healthy %>
-              <span class="badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 ms-1">
-                <i class="fa-solid fa-leaf"></i> Healthy
-              </span>
-            <% end %>
-            <% if recipe.is_protein %>
-              <span class="badge rounded-pill bg-info text-white shadow-sm px-3 py-2 ms-1">
-                <i class="fa-solid fa-bolt"></i> Protéiné
-              </span>
-            <% end %>
+              <% if recipe.is_healthy %>
+                <span class="badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 ms-1">
+                  <i class="fa-solid fa-leaf"></i> Healthy
+                </span>
+              <% end %>
+              <% if recipe.is_protein %>
+                <span class="badge rounded-pill bg-info text-white shadow-sm px-3 py-2 ms-1">
+                  <i class="fa-solid fa-bolt"></i> Protéiné
+                </span>
+              <% end %>
+              <% if recipe.respond_to?(:is_gourmet) && recipe.is_gourmet %>
+                <span class="badge rounded-pill shadow-sm px-3 py-2 text-white ms-1" style="background-color: #e84393;">
+                  <i class="fa-solid fa-cookie-bite"></i> Gourmand
+                </span>
+              <% end %>
             </div>
 
           <div class="card-body">
