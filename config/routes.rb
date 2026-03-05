@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   post "next_recipe", to: "recipes#next_recipe", as: :next_recipe
   post "save_recipe", to: "recipes#save_recipe", as: :save_recipe
 
-  resources :recipes, only: [:index, :show, :create] do
+  resources :recipes, only: [:index, :show, :create, :destroy] do
     resources :user_recipes, only: [:create]
     resources :chats, only: [:create, :show]
   end
