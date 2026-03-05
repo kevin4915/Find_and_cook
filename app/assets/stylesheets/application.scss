@@ -13,3 +13,28 @@
 @import "recipes";
 @import "pages/home";
 @import "pages/recipes";
+@import "components/my_cards";
+
+
+/* Loader circulaire */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #2ecc71;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  display: none; /* caché par défaut */
+  margin-left: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Classe pour afficher le loader */
+.loader.show {
+  display: flex;
+  flex-direction: row;
+}

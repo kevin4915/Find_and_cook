@@ -4,6 +4,7 @@
       <div class="recipe-card" style="z-index: 1;">
         <div class="main-recipe-card shadow-lg border-0">
 
+
           <div class="progress progress-swipe">
             <%
               current_idx = @index || 0
@@ -11,6 +12,22 @@
               progress_width = ((current_idx + 1).to_f / total_count.to_f * 100).to_i
             %>
             <div class="progress-bar" role="progressbar" style="width: <%= progress_width %>%;"></div>
+
+        <div class="recipe-image-container position-relative">
+          <img src="<%= @recipe.image_URL %>" alt="<%= @recipe.title %>">
+
+          <div class="recipe-labels position-absolute top-0 start-0 p-3 d-flex flex-column gap-2">
+            <% if @recipe.is_healthy %>
+              <span class="badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2">
+                <i class="fa-solid fa-leaf"></i> Healthy
+              </span>
+            <% end %>
+            <% if @recipe.is_protein %>
+              <span class="badge rounded-pill bg-info text-white shadow-sm px-3 py-2">
+                <i class="fa-solid fa-bolt"></i> Protéiné
+              </span>
+            <% end %>
+
           </div>
 
           <div class="recipe-image-container position-relative">

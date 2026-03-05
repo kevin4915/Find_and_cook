@@ -2,7 +2,9 @@ class RecipesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @recipes = Recipe.all
+    @recipes = Recipe.order(rating: :desc)
+    recipe_ids = UserRecipe.where(users_id: current_user.id).pluck(:recipes_id)
+    @recipes = Recipe.where(id: recipe_ids)
   end
 
   def show
@@ -24,8 +26,10 @@ class RecipesController < ApplicationController
           ingredient: data["ingredient"],
           preparation: data["preparation"],
           rating: data["rating"],
-          preparation_time: data["duration"],
+          short_description: data["short_description"],
+          preparation_time: data["preparation_time"],
           is_healthy: data["is_healthy"],
+
           is_protein: data["is_protein"],
           is_gourmet: data["is_gourmet"],
           short_description: data["description"]
@@ -40,7 +44,7 @@ class RecipesController < ApplicationController
     end
   end
 
-def swipe
+  def swipe
     ids = session[:pending_recipe_ids]
     @index = session[:recipe_index] || 0
     @total = ids&.length || 1
@@ -59,6 +63,7 @@ def swipe
     ids = session[:pending_recipe_ids]
     index = session[:recipe_index]
     @recipe = Recipe.find(ids[index])
+    UserRecipe.create!(users_id: current_user.id, recipes_id: @recipe.id)
     session.delete(:pending_recipe_ids)
     session.delete(:recipe_index)
     redirect_to recipe_path(@recipe)
@@ -67,27 +72,38 @@ def swipe
   private
 
   def system_prompt
-    prompt = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes avec tous les ingrédients listés avec une URL
-    d'image d'illustration de la recette, une description, une durée de préparation en minutes, et attribue un nombre entier en note sur 5
-    à chaque recette, is_healthy, is_protein et is_gourmet. Le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
+
+    prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il me
+    reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste des
+    ingrédients pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes numérotées précédées de ***
+    avec des retours à la ligne entre chaque étape, une durée de
+    préparation en minutes, et attribue une note aléatoire entre 3 et 5 arrondis à l'inférieur.
+    à chaque recette, is_healthy, is_protein et is_gourmet. Chaque élément de ta réponse doit impérativement être en français et
+    le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
   Format exact :
   [
     {
       \"title\": \"Nom de la recette\",
       \"ingredient\": \"liste des ingrédients\",
-      \"preparation\": \"étapes de préparation\",
-      \"image\": \"URL de l'image\",
-      \"description\": \"description\",
-      \"duration\": \"durée de préparation en minutes\",
-      \"rating\": \"note sur 5\"
+      \"preparation\": \"la recette complète et détaillée avec le déroulé en plusieurs étapes numérotées précédées de *** avec des retours à la ligne entre chaque étape\",
+      \"short_description\": \"courte description\",
+      \"preparation_time\": \"durée de préparation en minutes\",
+      \"rating\": \"note sur 5\",
       \"is_healthy\": true,
       \"is_protein\": false,
       \"is_gourmet\": true
     }
   ]"
 
-    if current_user.forbidden_ingredients.present?
-      prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
-    end
+    return unless current_user.forbidden_ingredients.present?
+
+    prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
   end
+
+  # def fetch_image(title)
+  #   image = RubyLLM.paint("Photo réaliste d'un plat cuisiné : #{title}", model: "dall-e-3")
+  #   image.url
+  # rescue RubyLLM::Error
+  #   "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+  # end
 end

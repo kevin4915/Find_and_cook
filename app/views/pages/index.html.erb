@@ -4,21 +4,23 @@
       <h1 class="display-4 fw-bold text-white mb-4">Find & Cook</h1>
       <h3 class="mt-2 mb-5 text-white shadow-text">Pour de bons repas il faut de bons ingrédients, qu'as-tu sous la main ? 😋</h3>
 
-      <%= form_with url: recipes_path, method: :post, data: { turbo: false }, class: "form-ia d-flex justify-content-center mt-3" do |f| %>
+      <%= form_with url: recipes_path, method: :post, data: { controller: "loading", action: "submit->loading#submit" }, class: "form-ia d-flex justify-content-center mt-3" do |f| %>
         <div class="input-group search-bar-container" style="max-width: 550px;">
           <%= f.text_field :ingredients,
                 placeholder: "ex: poulet, citron, ail...",
                 class: "form-control form-control-lg search-input ps-4" %>
-          <%= f.submit "Cuisiner",
+          <%= f.submit "Cuisiner", data: { loading_target: "button" },
                 class: "btn btn-success btn-search px-5" %>
         </div>
+        <div class="loader" data-loading-target="loader"></div>
       <% end %>
     </div>
   </div>
 </div>
 
+
 <div class="container my-5">
-  <div id="carouselExampleInterval" class="carousel slide small-carousel shadow rounded-4 overflow-hidden mx-auto" data-bs-ride="carousel" style="max-width: 600px;">
+  <div id="carouselExampleInterval" class="carousel slide small-carousel shadow rounded-4 overflow-hidden mx-auto" data-bs-ride="carousel" data-bs-interval="3000" style="max-width: 600px;">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80" class="d-block w-100" alt="Pizza">
