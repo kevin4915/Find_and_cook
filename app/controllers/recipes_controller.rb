@@ -69,15 +69,17 @@ def swipe
   def system_prompt
     prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il me
     reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste des
-    ingrédients pour la préparer, les étapes complètes de préparation, une courte description en 10 mots, une durée de
-    préparation en minutes, et attribue une note aléatoire entre 0 et 5 arrondis à l'inférieur.
-    à chaque recette, is_healthy et is_protein. Chaque élément de ta réponse doit impérativement être en français et le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
+    ingrédients pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes numérotées précédées de ***
+    avec des retours à la ligne entre chaque étape, une durée de
+    préparation en minutes, et attribue une note aléatoire entre 3 et 5 arrondis à l'inférieur.
+    à chaque recette, is_healthy et is_protein. Chaque élément de ta réponse doit impérativement être en français et
+    le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
   Format exact :
   [
     {
       \"title\": \"Nom de la recette\",
       \"ingredient\": \"liste des ingrédients\",
-      \"preparation\": \"étapes de préparation\",
+      \"preparation\": \"la recette complète et détaillée avec le déroulé en plusieurs étapes numérotées précédées de *** avec des retours à la ligne entre chaque étape\",
       \"short_description\": \"courte description\",
       \"preparation_time\": \"durée de préparation en minutes\",
       \"rating\": \"note sur 5\",

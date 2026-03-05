@@ -50,15 +50,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_04_143758) do
     t.index ["users_id"], name: "index_chats_on_users_id"
   end
 
-  create_table "likes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "recipe_id", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["recipe_id"], name: "index_likes_on_recipe_id"
-    t.index ["user_id"], name: "index_likes_on_user_id"
-  end
-
   create_table "messages", force: :cascade do |t|
     t.bigint "chats_id", null: false
     t.string "content"
@@ -252,8 +243,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_04_143758) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chats", "users", column: "users_id"
-  add_foreign_key "likes", "recipes"
-  add_foreign_key "likes", "users"
   add_foreign_key "messages", "chats", column: "chats_id"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
