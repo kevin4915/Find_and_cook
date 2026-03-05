@@ -46,6 +46,19 @@
   }
 }
 
+.recipe-short-description {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #636e72;
+  margin-bottom: 20px;
+  padding: 0 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 4rem;
+}
+
 .recipe-show-page {
   width: 100%;
   max-width: 850px;

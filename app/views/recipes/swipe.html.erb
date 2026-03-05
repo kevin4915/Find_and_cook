@@ -1,53 +1,70 @@
 <div class="swipe-container">
   <div class="card-stack mt-4">
-    <div class="recipe-card" style="z-index: 1;">
-      <div class="main-recipe-card shadow-lg border-0">
+    <% if @recipe %>
+      <div class="recipe-card" style="z-index: 1;">
+        <div class="main-recipe-card shadow-lg border-0">
 
-        <div class="progress progress-swipe">
-          <% progress_width = (@index && @total) ? ((@index + 1).to_f / @total.to_f * 100).to_i : 0 %>
-          <div class="progress-bar" role="progressbar" style="width: <%= progress_width %>%;"></div>
-        </div>
-
-        <div class="recipe-image-container position-relative">
-          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80" alt="<%= @recipe.title %>">
-
-          <div class="recipe-labels position-absolute top-0 start-0 p-3 d-flex flex-column gap-2">
-            <% if @recipe.is_healthy %>
-              <span class="badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2">
-                <i class="fa-solid fa-leaf"></i> Healthy
-              </span>
-            <% end %>
-            <% if @recipe.is_protein %>
-              <span class="badge rounded-pill bg-info text-white shadow-sm px-3 py-2">
-                <i class="fa-solid fa-bolt"></i> Protéiné
-              </span>
-            <% end %>
+          <div class="progress progress-swipe">
+            <%
+              current_idx = @index || 0
+              total_count = (@total && @total > 0) ? @total : 1
+              progress_width = ((current_idx + 1).to_f / total_count.to_f * 100).to_i
+            %>
+            <div class="progress-bar" role="progressbar" style="width: <%= progress_width %>%;"></div>
           </div>
 
-          <div class="recipe-title-overlay">
-            <h2 class="recipe-display-title shadow-text text-white"><%= @recipe.title %></h2>
-          </div>
-        </div>
+          <div class="recipe-image-container position-relative">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80" alt="<%= @recipe.title %>">
 
-        <div class="card-body bg-white text-center pb-4 pt-3">
-          <div class="recipe-meta d-flex justify-content-around mb-4 text-muted small border-bottom pb-3">
-            <span>⭐ <%= @recipe.rating %>/5</span>
-            <span><i class="fa-regular fa-clock"></i> <%= @recipe.preparation_time %> min</span>
-            <span><i class="fa-solid fa-user-group"></i> 2 pers.</span>
+            <div class="recipe-labels position-absolute top-0 start-0 p-3 d-flex flex-column gap-2">
+              <% if @recipe.is_healthy %>
+                <span class="badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2">
+                  <i class="fa-solid fa-leaf"></i> Healthy
+                </span>
+              <% end %>
+              <% if @recipe.is_protein %>
+                <span class="badge rounded-pill bg-info text-white shadow-sm px-3 py-2">
+                  <i class="fa-solid fa-bolt"></i> Protéiné
+                </span>
+              <% end %>
+              <% if @recipe.respond_to?(:is_gourmet) && @recipe.is_gourmet %>
+                <span class="badge rounded-pill shadow-sm px-3 py-2 text-white" style="background-color: #e84393;">
+                  <i class="fa-solid fa-cookie-bite"></i> Gourmand
+                </span>
+              <% end %>
+            </div>
+
+            <div class="recipe-title-overlay">
+              <h2 class="recipe-display-title shadow-text text-white"><%= @recipe.title %></h2>
+            </div>
           </div>
 
-          <div class="d-flex justify-content-center gap-4 mt-2">
-            <%= button_to next_recipe_path, method: :post, class: "btn-round btn-dislike js-swipe-btn", data: { direction: "left" } do %>
-              <i class="fa-solid fa-xmark"></i>
+          <div class="card-body bg-white text-center pb-4 pt-3">
+            <% if @recipe.short_description.present? %>
+              <p class="recipe-short-description text-muted px-3 mb-3">
+                <%= @recipe.short_description %>
+              </p>
             <% end %>
 
-            <%= button_to save_recipe_path, method: :post, class: "btn-round btn-like js-swipe-btn", data: { direction: "right" } do %>
-              <i class="fa-solid fa-heart"></i>
-            <% end %>
+            <div class="recipe-meta d-flex justify-content-around mb-4 text-muted small border-bottom pb-3">
+              <span>⭐ <%= @recipe.rating %>/5</span>
+              <span><i class="fa-regular fa-clock"></i> <%= @recipe.preparation_time %> min</span>
+              <span><i class="fa-solid fa-user-group"></i> 2 pers.</span>
+            </div>
+
+            <div class="d-flex justify-content-center gap-4 mt-2">
+              <%= button_to next_recipe_path, method: :post, class: "btn-round btn-dislike js-swipe-btn", data: { direction: "left" } do %>
+                <i class="fa-solid fa-xmark"></i>
+              <% end %>
+
+              <%= button_to save_recipe_path, method: :post, class: "btn-round btn-like js-swipe-btn", data: { direction: "right" } do %>
+                <i class="fa-solid fa-heart"></i>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
 </div>
 
@@ -68,9 +85,7 @@
           card.style.opacity = "0";
         }
 
-        setTimeout(() => {
-          form.submit();
-        }, 400);
+        setTimeout(() => { form.submit(); }, 400);
       });
     });
   });

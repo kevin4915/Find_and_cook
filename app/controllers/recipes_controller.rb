@@ -26,7 +26,9 @@ class RecipesController < ApplicationController
           rating: data["rating"],
           preparation_time: data["duration"],
           is_healthy: data["is_healthy"],
-          is_protein: data["is_protein"]
+          is_protein: data["is_protein"],
+          is_gourmet: data["is_gourmet"],
+          short_description: data["description"]
         ).id
       end
 
@@ -67,7 +69,7 @@ def swipe
   def system_prompt
     prompt = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes avec tous les ingrédients listés avec une URL
     d'image d'illustration de la recette, une description, une durée de préparation en minutes, et attribue un nombre entier en note sur 5
-    à chaque recette, is_healthy et is_protein. Le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
+    à chaque recette, is_healthy, is_protein et is_gourmet. Le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
   Format exact :
   [
     {
@@ -79,7 +81,8 @@ def swipe
       \"duration\": \"durée de préparation en minutes\",
       \"rating\": \"note sur 5\"
       \"is_healthy\": true,
-      \"is_protein\": false
+      \"is_protein\": false,
+      \"is_gourmet\": true
     }
   ]"
 
