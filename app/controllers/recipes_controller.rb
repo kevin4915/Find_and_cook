@@ -41,7 +41,7 @@ class RecipesController < ApplicationController
     end
   end
 
-def swipe
+  def swipe
     ids = session[:pending_recipe_ids]
     @index = session[:recipe_index] || 0
     @total = ids&.length || 1
@@ -69,10 +69,9 @@ def swipe
   private
 
   def system_prompt
-    prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il me
-    reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste des
-    ingrédients pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes numérotées précédées de ***
-    avec des retours à la ligne entre chaque étape, une durée de
+    prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il
+    me reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste
+    des ingrédients pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes, une durée de
     préparation en minutes, et attribue une note aléatoire entre 3 et 5 arrondis à l'inférieur.
     à chaque recette, is_healthy et is_protein. Chaque élément de ta réponse doit impérativement être en français et
     le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
@@ -80,8 +79,8 @@ def swipe
   [
     {
       \"title\": \"Nom de la recette\",
-      \"ingredient\": \"liste des ingrédients\",
-      \"preparation\": \"la recette complète et détaillée avec le déroulé en plusieurs étapes numérotées précédées de *** avec des retours à la ligne entre chaque étape\",
+      \"ingredient\": \"ingrédient 1\\ningrédient 2\",
+      \"preparation\": \"1. étape\\n2. étape\",
       \"short_description\": \"courte description\",
       \"preparation_time\": \"durée de préparation en minutes\",
       \"rating\": \"note sur 5\",
@@ -91,7 +90,7 @@ def swipe
   ]"
 
     if current_user.forbidden_ingredients.present?
-      prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
+      prompt << "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
     end
   end
 

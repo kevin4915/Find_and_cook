@@ -11,14 +11,22 @@
       <div class="recipe-detail-section">
         <h4 class="recipe-section-label">🛒 Ingrédients</h4>
         <div class="recipe-text-box">
-          <%= @recipe.ingredient %>
+          <ul>
+            <% @recipe.ingredient.split("\n").each do |ingredient| %>
+              <li><%= ingredient %></li>
+            <% end %>
+          </ul>
         </div>
       </div>
 
       <div class="recipe-detail-section">
         <h4 class="recipe-section-label">👨‍🍳 Préparation</h4>
         <div class="recipe-text-box">
-          <%= @recipe.preparation %>
+          <ul style="list-style: none; padding-left: 0;">
+          <% @recipe.preparation.split("\n").each do |step| %>
+            <li><%= step %></li>
+          <% end %>
+          </ul>
         </div>
       </div>
 
