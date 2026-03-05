@@ -10,6 +10,18 @@
           <div class="card h-100 border-0">
             <img src="<%= recipe.image_URL %>" class="card-img-top" alt="<%= recipe.title %>" style="height: 200px; object-fit: cover;">
 
+            <div class="card-badges">
+               <% if recipe.is_healthy %>
+              <span class="badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 ms-1">
+                <i class="fa-solid fa-leaf"></i> Healthy
+              </span>
+            <% end %>
+            <% if recipe.is_protein %>
+              <span class="badge rounded-pill bg-info text-white shadow-sm px-3 py-2 ms-1">
+                <i class="fa-solid fa-bolt"></i> Protéiné
+              </span>
+            <% end %>
+            </div>
 
           <div class="card-body">
             <h2 class="card-title"><%= recipe.title %></h2>
@@ -19,10 +31,11 @@
               <%= truncate(recipe.short_description, length: 80) %>
             </p>
           </div>
-          <div>
-            <p class="card-footer">
-              ⏱️ <%= recipe.preparation_time || "?" %> min
-            </p>
+          <div class="card-footer">
+           <div class="rating">
+            ⭐️ <%= recipe.rating || "—" %>/5
+           </div>
+           ⏱️ <%= recipe.preparation_time || "?" %> min
           </div>
           </div>
         <% end %>

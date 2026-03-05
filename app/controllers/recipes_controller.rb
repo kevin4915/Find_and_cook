@@ -3,6 +3,7 @@ class RecipesController < ApplicationController
 
   def index
     @recipes = Recipe.all
+    @recipes = Recipe.order(rating: :desc)
   end
 
   def show
@@ -40,7 +41,7 @@ class RecipesController < ApplicationController
     end
   end
 
-def swipe
+  def swipe
     ids = session[:pending_recipe_ids]
     @index = session[:recipe_index] || 0
     @total = ids&.length || 1
@@ -86,9 +87,9 @@ def swipe
     }
   ]"
 
-    if current_user.forbidden_ingredients.present?
-      prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
-    end
+    return unless current_user.forbidden_ingredients.present?
+
+    prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
   end
 
   # def fetch_image(title)
