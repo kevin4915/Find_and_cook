@@ -2,6 +2,7 @@ class RecipesController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @recipes = Recipe.order(rating: :desc)
     recipe_ids = UserRecipe.where(users_id: current_user.id).pluck(:recipes_id)
     @recipes = Recipe.where(id: recipe_ids)
   end
@@ -41,7 +42,7 @@ class RecipesController < ApplicationController
     end
   end
 
-def swipe
+  def swipe
     ids = session[:pending_recipe_ids]
     @index = session[:recipe_index] || 0
     @total = ids&.length || 1
@@ -90,9 +91,9 @@ def swipe
     }
   ]"
 
-    if current_user.forbidden_ingredients.present?
-      prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
-    end
+    return unless current_user.forbidden_ingredients.present?
+
+    prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
   end
 
   # def fetch_image(title)
