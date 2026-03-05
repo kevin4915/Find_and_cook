@@ -68,6 +68,15 @@ class RecipesController < ApplicationController
     redirect_to recipe_path(@recipe)
   end
 
+  def destroy
+    @recipe = Recipe.find(params[:id])
+    if @recipe.destroy
+      redirect_to recipes_path, notice: "Recette supprimée."
+    else
+      redirect_to recipes_path, status: :unprocessable_entity, alert: "Impossible de supprimer la recette."
+    end
+  end
+
   private
 
   def system_prompt
@@ -75,7 +84,7 @@ class RecipesController < ApplicationController
     me reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste
     des ingrédients pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes, une courte description de maximum 10 mots, une durée de
     préparation en minutes, et attribue une note aléatoire entre 3 et 5 arrondis à l'inférieur.
-    à chaque recette, is_healthy et is_protein. Chaque élément de ta réponse doit impérativement être en français et
+    à chaque recette, is_healthy, is_protein et is_gourmet. Chaque élément de ta réponse doit impérativement être en français et
     le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
   Format exact :
   [
