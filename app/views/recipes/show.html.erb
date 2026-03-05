@@ -1,17 +1,31 @@
-<div class="container mt-5">
-  <div class="card border-0 shadow-sm">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="<%= @recipe.title %>">
+<div class="recipe-show-page">
+  <div class="recipe-card-fixed">
 
-      <div class="card-body">
-        <h1><%= @recipe.title %></h1>
+    <div class="recipe-hero-container">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="<%= @recipe.title %>" class="recipe-full-img">
+    </div>
 
-        <h4 class="mt-4">🛒 Ingrédients</h4>
-        <p><%= @recipe.ingredient %></p>
+    <div class="recipe-main-content">
+      <h1 class="recipe-display-name"><%= @recipe.title %></h1>
 
-        <h4 class="mt-4">👨‍🍳 Préparation</h4>
-        <p><%= @recipe.preparation %></p>
+      <div class="recipe-detail-section">
+        <h4 class="recipe-section-label">🛒 Ingrédients</h4>
+        <div class="recipe-text-box">
+          <%= @recipe.ingredient %>
+        </div>
       </div>
 
-      <%= link_to "← Nouvelle recherche", root_path, class: "btn btn-success m-3" %>
+      <div class="recipe-detail-section">
+        <h4 class="recipe-section-label">👨‍🍳 Préparation</h4>
+        <div class="recipe-text-box">
+          <%= @recipe.preparation %>
+        </div>
+      </div>
+
+      <div class="recipe-nav-actions">
+        <%= link_to "← Nouvelle recherche", root_path, class: "btn-custom-action" %>
+      </div>
+    </div>
+
   </div>
 </div>
