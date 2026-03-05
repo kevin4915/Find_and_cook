@@ -2,7 +2,8 @@ class RecipesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @recipes = Recipe.all
+    recipe_ids = UserRecipe.where(users_id: current_user.id).pluck(:recipes_id)
+    @recipes = Recipe.where(id: recipe_ids)
   end
 
   def show
@@ -59,6 +60,7 @@ def swipe
     ids = session[:pending_recipe_ids]
     index = session[:recipe_index]
     @recipe = Recipe.find(ids[index])
+    UserRecipe.create!(users_id: current_user.id, recipes_id: @recipe.id)
     session.delete(:pending_recipe_ids)
     session.delete(:recipe_index)
     redirect_to recipe_path(@recipe)
