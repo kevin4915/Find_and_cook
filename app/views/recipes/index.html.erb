@@ -1,56 +1,33 @@
-<div class="swipe-container">
-  <% if @recipes.empty? %>
-    <div class="no-recipes">
-      <h3 class="mt-5 mb-5">Aucune recette trouvée, essaye avec d'autres ingrédients ! 😋</h3>
-    </div>
-    <% else %>
-  <div class="card-stack">
-    <% @recipes.each_with_index do |recipe, index| %>
-      <div class="recipe-card" style="z-index: <%= @recipes.count - index %>;">
-        <div class="card border-0 shadow-sm">
-          <div class="recipe-image-container">
-            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Recette">
-            <div class="recipe-title-overlay">
-              <h2 class="italic-title"><%= recipe.title %></h2>
-            </div>
-          </div>
+<div class="container mt-5">
 
-          <div class="card-body bg-white text-center">
-            <div class="d-flex justify-content-around mb-3 text-muted small border-bottom pb-2">
-              <span>⭐ 5/5</span>
-              <span><i class="fa-regular fa-clock"></i> 25 min</span>
-              <span><i class="fa-solid fa-user-group"></i> 2 pers.</span>
-            </div>
+    <h1 class="page-title">Toutes les recettes</h1>
 
-            <div class="d-flex justify-content-center gap-4 mt-4">
-              <button class="btn-round btn-dislike js-dislike"><i class="fa-solid fa-xmark"></i></button>
-              <button class="btn-round btn-like js-like"><i class="fa-solid fa-heart"></i></button>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+      <% @recipes.each do |recipe| %>
+      <div class="col">
+        <%= link_to recipe_path(recipe) do %>
+
+          <div class="card h-100 border-0">
+            <img src="<%= recipe.image_URL %>" class="card-img-top" alt="<%= recipe.title %>" style="height: 200px; object-fit: cover;">
+
+
+          <div class="card-body">
+            <h2 class="card-title"><%= recipe.title %></h2>
             </div>
+          <div>
+            <p>
+              <%= truncate(recipe.short_description, length: 80) %>
+            </p>
           </div>
+          <div>
+            <p class="card-footer">
+              ⏱️ <%= recipe.preparation_time || "?" %> min
+            </p>
+          </div>
+          </div>
+        <% end %>
         </div>
-      </div>
-    <% end %>
-  </div>
-  <% end %>
+      <% end %>
+    </div>
+
 </div>
-
-<script>
-  document.addEventListener('turbo:load', () => {
-    const cards = document.querySelectorAll('.recipe-card');
-    let currentIndex = 0;
-
-    const swipeCard = (isLike) => {
-      if (currentIndex < cards.length) {
-        const topCard = cards[currentIndex];
-        topCard.style.transition = "transform 0.6s ease, opacity 0.6s ease";
-        topCard.style.transform = isLike ? "translateX(200%) rotate(30deg)" : "translateX(-200%) rotate(-30deg)";
-        topCard.style.opacity = "0";
-        setTimeout(() => { topCard.style.display = "none"; }, 600);
-        currentIndex++;
-      }
-    };
-
-    document.querySelectorAll('.js-dislike').forEach(btn => btn.addEventListener('click', () => swipeCard(false)));
-    document.querySelectorAll('.js-like').forEach(btn => btn.addEventListener('click', () => swipeCard(true)));
-  });
-</script>

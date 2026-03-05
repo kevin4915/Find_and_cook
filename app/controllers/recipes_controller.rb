@@ -40,7 +40,7 @@ class RecipesController < ApplicationController
     end
   end
 
-  def swipe
+def swipe
     ids = session[:pending_recipe_ids]
     @index = session[:recipe_index] || 0
     @total = ids&.length || 1

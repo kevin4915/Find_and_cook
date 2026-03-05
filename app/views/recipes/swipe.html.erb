@@ -1,10 +1,11 @@
 <div class="swipe-container">
   <div class="card-stack mt-4">
-    <div class="recipe-card-single">
+    <div class="recipe-card" style="z-index: 1;">
       <div class="main-recipe-card shadow-lg border-0">
 
         <div class="progress progress-swipe">
-          <div class="progress-bar" role="progressbar" style="width: <%= ((@index + 1).to_f / @total.to_f * 100).to_i %>%;"></div>
+          <% progress_width = (@index && @total) ? ((@index + 1).to_f / @total.to_f * 100).to_i : 0 %>
+          <div class="progress-bar" role="progressbar" style="width: <%= progress_width %>%;"></div>
         </div>
 
         <div class="recipe-image-container position-relative">
@@ -24,23 +25,23 @@
           </div>
 
           <div class="recipe-title-overlay">
-            <h2 class="recipe-display-title shadow-text"><%= @recipe.title %></h2>
+            <h2 class="recipe-display-title shadow-text text-white"><%= @recipe.title %></h2>
           </div>
         </div>
 
         <div class="card-body bg-white text-center pb-4 pt-3">
           <div class="recipe-meta d-flex justify-content-around mb-4 text-muted small border-bottom pb-3">
-            <span><i class="fa-solid fa-star text-warning"></i> <%= @recipe.rating %>/5</span>
+            <span>⭐ <%= @recipe.rating %>/5</span>
             <span><i class="fa-regular fa-clock"></i> <%= @recipe.preparation_time %> min</span>
             <span><i class="fa-solid fa-user-group"></i> 2 pers.</span>
           </div>
 
           <div class="d-flex justify-content-center gap-4 mt-2">
-            <%= button_to next_recipe_path, method: :post, class: "btn-round btn-dislike" do %>
+            <%= button_to next_recipe_path, method: :post, class: "btn-round btn-dislike js-swipe-btn", data: { direction: "left" } do %>
               <i class="fa-solid fa-xmark"></i>
             <% end %>
 
-            <%= button_to save_recipe_path, method: :post, class: "btn-round btn-like" do %>
+            <%= button_to save_recipe_path, method: :post, class: "btn-round btn-like js-swipe-btn", data: { direction: "right" } do %>
               <i class="fa-solid fa-heart"></i>
             <% end %>
           </div>
@@ -49,3 +50,28 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('turbo:load', () => {
+    const card = document.querySelector('.recipe-card');
+    const buttons = document.querySelectorAll('.js-swipe-btn');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const form = button.closest('form');
+        const direction = button.dataset.direction;
+
+        if (card) {
+          card.style.transition = "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease";
+          card.style.transform = direction === "right" ? "translateX(150%) rotate(20deg)" : "translateX(-150%) rotate(-20deg)";
+          card.style.opacity = "0";
+        }
+
+        setTimeout(() => {
+          form.submit();
+        }, 400);
+      });
+    });
+  });
+</script>
