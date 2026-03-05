@@ -7,5 +7,5 @@ class User < ApplicationRecord
   has_many :recipes, through: :users_recipes
   has_many :chats, foreign_key: "users_id", dependent: :destroy
   validates :email, uniqueness: true, presence: true
-  validates :first_name, :last_name, :password, presence: true
+  validates :first_name, :last_name, presence: true
 end
