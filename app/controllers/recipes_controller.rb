@@ -24,10 +24,11 @@ class RecipesController < ApplicationController
           ingredient: data["ingredient"],
           preparation: data["preparation"],
           rating: data["rating"],
-          short_description: data["description"],
-          preparation_time: data["duration"],
+          short_description: data["short_description"],
+          preparation_time: data["preparation_time"],
           is_healthy: data["is_healthy"],
           is_protein: data["is_protein"]
+          # image_URL: fetch_image(data["title"])
         ).id
       end
 
@@ -66,19 +67,20 @@ def swipe
   private
 
   def system_prompt
-
-    prompt = "Tu es un chef cuisinier. Réponds UNIQUEMENT avec un tableau JSON de 10 recettes. Elle doivent avoir un nom, la liste des ingrédients pour la préparer, les étapes complètes de préparation, une courte description en 10 mots, une durée de préparation en minutes, et attribue une note aléatoire entre 0 et 5 arrondis à l'inférieur.
-    à chaque recette, is_healthy et is_protein. Le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
+    prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il me
+    reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste des
+    ingrédients pour la préparer, les étapes complètes de préparation, une courte description en 10 mots, une durée de
+    préparation en minutes, et attribue une note aléatoire entre 0 et 5 arrondis à l'inférieur.
+    à chaque recette, is_healthy et is_protein. Chaque élément de ta réponse doit impérativement être en français et le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
   Format exact :
   [
     {
       \"title\": \"Nom de la recette\",
       \"ingredient\": \"liste des ingrédients\",
       \"preparation\": \"étapes de préparation\",
-      \"image\": \"URL de l'image\",
-      \"description\": \"description\",
-      \"duration\": \"durée de préparation en minutes\",
-      \"rating\": \"note sur 5\"
+      \"short_description\": \"courte description\",
+      \"preparation_time\": \"durée de préparation en minutes\",
+      \"rating\": \"note sur 5\",
       \"is_healthy\": true,
       \"is_protein\": false
     }
@@ -88,4 +90,11 @@ def swipe
       prompt += "\n\nATTENTION : Tu ne dois en aucun cas utiliser ces ingrédients : #{current_user.forbidden_ingredients}."
     end
   end
+
+  # def fetch_image(title)
+  #   image = RubyLLM.paint("Photo réaliste d'un plat cuisiné : #{title}", model: "dall-e-3")
+  #   image.url
+  # rescue RubyLLM::Error
+  #   "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+  # end
 end
