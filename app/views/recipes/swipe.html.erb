@@ -14,7 +14,7 @@
           </div>
 
           <div class="recipe-image-container position-relative">
-            <img src="<%= @recipe.image_URL %>" alt="<%= @recipe.title %>">
+            <%= render "shared/random_image" %>
 
             <div class="recipe-labels position-absolute top-0 start-0 p-3 d-flex flex-column gap-2">
               <% if @recipe.is_healthy %>
