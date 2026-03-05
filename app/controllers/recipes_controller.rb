@@ -29,10 +29,8 @@ class RecipesController < ApplicationController
           short_description: data["short_description"],
           preparation_time: data["preparation_time"],
           is_healthy: data["is_healthy"],
-
           is_protein: data["is_protein"],
           is_gourmet: data["is_gourmet"],
-          short_description: data["description"]
         ).id
       end
 
@@ -72,12 +70,11 @@ class RecipesController < ApplicationController
   private
 
   def system_prompt
-    prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il me
-    reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste des
-    ingrédients pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes numérotées précédées de ***
-    avec des retours à la ligne entre chaque étape, une durée de
+    prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il
+    me reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom, la liste
+    des ingrédients pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes, une durée de
     préparation en minutes, et attribue une note aléatoire entre 3 et 5 arrondis à l'inférieur.
-    à chaque recette, is_healthy, is_protein et is_gourmet. Chaque élément de ta réponse doit impérativement être en français et
+    à chaque recette, is_healthy et is_protein. Chaque élément de ta réponse doit impérativement être en français et
     le format de ta réponse doit être exactement celui-ci, sans texte autour, sans markdown.
   Format exact :
   [
@@ -91,7 +88,6 @@ class RecipesController < ApplicationController
       \"is_healthy\": true,
       \"is_protein\": false,
       \"is_gourmet\": true
-      # image_URL: fetch_image(data["title"])
     }
   ]"
 
