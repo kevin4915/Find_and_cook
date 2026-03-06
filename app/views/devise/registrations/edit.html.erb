@@ -1,37 +1,44 @@
-<div class="container">
-  <div class="col-md-4 offset-md-4 mt-4">
-    <h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="swipe-container">
+  <div class="container">
+    <div class="col-md-4 offset-md-4 mt-4">
+      <h3 class="mb-2">Mettre à jour mes informations</h3>
 
-    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-    <%= f.error_notification %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= f.error_notification %>
 
-    <div class="form-inputs">
-      <%= f.input :email, required: true, autofocus: true %>
+      <div class="form-inputs p-3 mb-2 text-black rounded">
 
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p>En attente de confirmation pour: <%= resource.unconfirmed_email %></p>
+        <%= f.input :first_name, label: "Prénom", required: true %>
+
+        <%= f.input :last_name, label: "Nom", required: true %>
+
+        <%= f.input :email, label: "Adresse e-mail", required: true %>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <p>En attente de confirmation pour: <%= resource.unconfirmed_email %></p>
+        <% end %>
+        <%= f.input :forbidden_ingredients, as: :text, label: "Ingrédients que je ne veux pas dans mes recettes",
+                hint: "Séparez les ingrédients par des virgules",
+              input_html: { autocomplete: "forbidden-ingredients" } %>
+        <%= f.input :password,
+                    hint: "Laisser vide si vous ne voulez pas le changer",
+                    required: false,
+                    input_html: { autocomplete: "new-password" } %>
+        <%= f.input :password_confirmation,
+                    required: false,
+                    input_html: { autocomplete: "new-password" } %>
+        <%= f.input :current_password,
+                    hint: "Nous avons besoin de votre mot de passe actuel pour confirmer vos modifications",
+                    required: true,
+                    input_html: { autocomplete: "current-password" } %>
+      </div>
+
+      <div class="form-actions ms-3 mb-4">
+        <%= f.button :submit, "Mettre à jour", class: "btn btn-success" %>
+      </div>
       <% end %>
-      <%= f.input :forbidden_ingredients, as: :text, label: "Ingrédients que je ne veux pas dans mes recettes",
-              hint: "Séparez les ingrédients par des virgules",
-            input_html: { autocomplete: "forbidden-ingredients" } %>
-      <%= f.input :password,
-                  hint: "Laisser vide si vous ne voulez pas le changer",
-                  required: false,
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :password_confirmation,
-                  required: false,
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :current_password,
-                  hint: "Nous avons besoin de votre mot de passe actuel pour confirmer vos modifications",
-                  required: true,
-                  input_html: { autocomplete: "current-password" } %>
-    </div>
 
-    <div class="form-actions mb-4">
-      <%= f.button :submit, "Mettre à jour", class: "btn btn-success" %>
+      <div class="ms-3 mt-2 mb-4"><%= link_to "Retour", :back %></div>
     </div>
-    <% end %>
-
-    <div class="mb-4"><%= link_to "Retour", :back %></div>
   </div>
 </div>
