@@ -1,8 +1,1 @@
-<%
-  images = Dir.glob(Rails.root.join('app', 'assets', 'images', 'recipes_pictures', '*.{jpg,jpeg,png,gif,webp}'))
-  if images.any?
-    concat image_tag("recipes_pictures/#{File.basename(images.sample)}")
-  else
-    concat "Aucune image trouvée."
-  end
-%>
+<%= image_tag @recipe.image_URL, alt: @recipe.title, style: "width: 100%; height: 300px; object-fit: cover;" %>

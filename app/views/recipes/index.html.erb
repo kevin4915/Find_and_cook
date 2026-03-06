@@ -7,10 +7,7 @@
         <div class="card border-0" style="height: 420px;">
 
           <%= link_to recipe_path(recipe) do %>
-            <img src="<%= recipe.image_URL %>"
-                 class="card-img-top"
-                 alt="<%= recipe.title %>"
-                 style="height: 200px; object-fit: cover;">
+            <%= image_tag recipe.image_URL, class: "card-img-top mt-0", alt: recipe.title, style: "height: 200px; object-fit: cover;" %>
           <% end %>
 
           <div class="card-badges ms-2 mt-2">
