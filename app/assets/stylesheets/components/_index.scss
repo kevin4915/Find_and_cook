@@ -8,7 +8,20 @@
 @import "card";
 @import "loader";
 @import "swipe";
+@import "show";
 
 .bg-cream {
   background-color: rgb(255, 251, 230);
+}
+
+main {
+  min-height: calc(100vh - 90px);
+}
+
+body:has(.swipe-container) {
+  background-color: transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://images.unsplash.com/photo-1543353071-873f17a7a088?q=80);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }

@@ -1,39 +1,41 @@
-<div class="recipe-show-page">
-  <div class="recipe-card-fixed">
+<div class="show-container">
+  <div class="recipe-show-page">
+    <div class="recipe-card-fixed">
 
-    <div class="recipe-hero-container">
-      <%= render "shared/random_image" %>
-    </div>
+      <div class="recipe-hero-container">
+        <%= render "shared/random_image" %>
+      </div>
 
-    <div class="recipe-main-content">
-      <h1 class="recipe-display-name"><%= @recipe.title %></h1>
+      <div class="recipe-main-content">
+        <h1 class="recipe-display-name"><%= @recipe.title %></h1>
 
-      <div class="recipe-detail-section">
-        <h4 class="recipe-section-label">🛒 Ingrédients</h4>
-        <div class="recipe-text-box">
-          <ul>
-            <% @recipe.ingredient.split("\n").each do |ingredient| %>
-              <li><%= ingredient %></li>
+        <div class="recipe-detail-section">
+          <h4 class="recipe-section-label">🛒 Ingrédients</h4>
+          <div class="recipe-text-box">
+            <ul>
+              <% @recipe.ingredient.split("\n").each do |ingredient| %>
+                <li><%= ingredient %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+
+        <div class="recipe-detail-section">
+          <h4 class="recipe-section-label">👨‍🍳 Préparation</h4>
+          <div class="recipe-text-box">
+            <ul style="list-style: none; padding-left: 0;">
+            <% @recipe.preparation.split("\n").each do |step| %>
+              <li><%= step %></li>
             <% end %>
-          </ul>
+            </ul>
+          </div>
+        </div>
+
+        <div class="recipe-nav-actions">
+          <%= link_to "← Nouvelle recherche", root_path, class: "btn-custom-action" %>
         </div>
       </div>
 
-      <div class="recipe-detail-section">
-        <h4 class="recipe-section-label">👨‍🍳 Préparation</h4>
-        <div class="recipe-text-box">
-          <ul style="list-style: none; padding-left: 0;">
-          <% @recipe.preparation.split("\n").each do |step| %>
-            <li><%= step %></li>
-          <% end %>
-          </ul>
-        </div>
-      </div>
-
-      <div class="recipe-nav-actions">
-        <%= link_to "← Nouvelle recherche", root_path, class: "btn-custom-action" %>
-      </div>
     </div>
-
   </div>
 </div>

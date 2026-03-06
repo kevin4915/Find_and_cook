@@ -4,7 +4,6 @@ class Recipe < ApplicationRecord
   validates :rating, numericality: { only_integer: true }
 
   IMAGES = [
-    "recipes_pictures/poulet.jpg",
     "recipes_pictures/poulet1.jpg",
     "recipes_pictures/poulet2.jpg",
     "recipes_pictures/poulet3.jpg",
@@ -13,6 +12,7 @@ class Recipe < ApplicationRecord
     "recipes_pictures/poulet6.jpg",
     "recipes_pictures/poulet7.jpg",
     "recipes_pictures/poulet8.jpg",
+    "recipes_pictures/poulet9.jpg",
     "recipes_pictures/chocolat.jpg",
     "recipes_pictures/chocolat1.jpg",
     "recipes_pictures/chocolat2.jpg",
