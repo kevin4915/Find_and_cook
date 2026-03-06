@@ -1,7 +1,7 @@
 <%
   images = Dir.glob(Rails.root.join('app', 'assets', 'images', 'recipes_pictures', '*.{jpg,jpeg,png,gif,webp}'))
   if images.any?
-    concat image_tag(File.basename(images.sample), alt: "Image aléatoire")
+    concat image_tag("recipes_pictures/#{File.basename(images.sample)}")
   else
     concat "Aucune image trouvée."
   end
