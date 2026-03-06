@@ -92,7 +92,7 @@ class RecipesController < ApplicationController
 
   def system_prompt
     prompt = "Tu es un chef cuisinier. Je suis une personne qui n'a pas d'idée pour cuisiner un plat avec ce qu'il
-    me reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 2 recettes. Elles doivent avoir un nom qui comporte le premier mot donné par l'utilisateur, la liste
+    me reste dans mon frigo. Réponds UNIQUEMENT avec un tableau JSON de 5 recettes. Elles doivent avoir un nom qui comporte le premier mot donné par l'utilisateur, la liste
     des ingrédients et leur quantité pour la préparer, la recette complète et détaillée avec le déroulé de plusieurs étapes, une courte description de maximum 10 mots, une durée de
     préparation en minutes, et attribue une note aléatoire entre 3 et 5 arrondis à l'inférieur.
     à chaque recette, is_healthy, is_protein et is_gourmet. Chaque élément de ta réponse doit impérativement être en français et
